@@ -18,6 +18,6 @@ import { CommandRegistrar } from '@kui-shell/core/models/command'
 
 export default async (commandTree: CommandRegistrar) => {
   return await commandTree.listen('/foo', () => new Promise((resolve,reject) => {
-      resolve('command not found')
+      reject('Command not found')
     }), { noAuthOk: true, inBrowserOk: false })
 }
