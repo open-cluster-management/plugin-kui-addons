@@ -1,6 +1,6 @@
 {
   "name": "@kui-shell/plugin-kui-addons",
-  "version": "1.0.0",
+  "version": "0.0.0-semantically-released",
   "description": "",
   "main": "index.js",
   "private": true,
@@ -39,8 +39,8 @@
         {
           "assets": [
             {
-              "path": "./plugin-search.tgz",
-              "label": "KUI plugin-search package"
+              "path": "./plugin-kui-addons.tgz",
+              "label": "KUI addons package"
             }
           ]
         }
