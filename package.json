@@ -10,6 +10,7 @@
     "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {
+    "@kui-shell/core": "^2.35.0",
     "@types/lodash": "^4.14.135",
     "@types/node": "^12.6.8",
     "commitizen": "^3.1.1",
@@ -46,8 +47,5 @@
         }
       ]
     ]
-  },
-  "dependencies": {
-    "@kui-shell/core": "^2.35.0"
   }
 }
