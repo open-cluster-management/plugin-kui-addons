@@ -16,11 +16,13 @@
 
 import { CommandRegistrar } from '@kui-shell/core/models/command'
 
-const bashLikeRoutes = ['/git/status','/git/diff','/export','/cd'];
+const bashLikeRoutes = ['/git/status','/git/diff'];
 const k8sRoutes = ['/istio/install','/istio/uninstall','/istio/ingress','/istio/status',
 '/bookinfo/install','/bookinfo/uninstall','/bookinfo/create',
 '/kiali/install','/kiali/delete','/kiali/console', '/kiali/graph',
 '/k8s/kedit','/k8s/kdebug'];
+const coreSupportRoutes = ['/run','/window'];
+//const otherRoutes = ['/export','/cd']
 //const kuiRoutes = ['']
 
 const blockKUICommand = async (route: string,commandTree: CommandRegistrar)=>{
@@ -37,6 +39,6 @@ const blockKUICommand = async (route: string,commandTree: CommandRegistrar)=>{
 }
 
 export default async (commandTree: CommandRegistrar) => {
-  const allRoutes =  [...bashLikeRoutes,...k8sRoutes]
+  const allRoutes =  [...bashLikeRoutes,...k8sRoutes,...coreSupportRoutes]
   return Promise.all(allRoutes.map((route)=>blockKUICommand(route,commandTree)))
 }
