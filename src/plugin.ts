@@ -15,6 +15,7 @@
  */
 
 import { CommandRegistrar } from '@kui-shell/core/models/command'
+import { repl } from '@kui-shell/core/core/repl'
 
 const bashLikeRoutes = ['/git/status','/git/diff'];
 const k8sRoutes = ['/istio/install','/istio/uninstall','/istio/ingress','/istio/status',
@@ -38,7 +39,19 @@ const blockKUICommand = async (route: string,commandTree: CommandRegistrar)=>{
   },{noAuthOk: true,inBrowserOk: true})
 }
 
+const redirectHelp = async (commandTree: CommandRegistrar)=> {
+  commandTree.listen('help',() => {
+    return Promise.reject('Command is disabled')
+  },{noAuthOk: true,inBrowserOk: true}) 
+
+  await commandTree.find('help')
+
+  commandTree.listen('help', async () => {
+    return await repl.qexec('getting started')
+  },{noAuthOk: true,inBrowserOk: true})
+}
+
 export default async (commandTree: CommandRegistrar) => {
   const allRoutes =  [...bashLikeRoutes,...k8sRoutes,...coreSupportRoutes]
-  return Promise.all(allRoutes.map((route)=>blockKUICommand(route,commandTree)))
+  return Promise.all([...allRoutes.map((route)=>blockKUICommand(route,commandTree)), redirectHelp(commandTree)])
 }
