@@ -7,9 +7,13 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { CommandRegistrar } from '@kui-shell/core/models/command'
+import { CommandRegistrar,EvaluatorArgs } from '@kui-shell/core/models/command'
+import {dispatchToShell} from '@kui-shell/plugin-bash-like/lib/cmds/catchall'
 
-const bashLikeRoutes = ['/git/status','/git/diff'];
+import * as Debug from 'debug'
+const debug = Debug('plugins/addons')
+
+const bashLikeRoutes = ['/git/status','/git/diff','/lls'];
 const k8sRoutes = ['/istio/install','/istio/uninstall','/istio/ingress','/istio/status',
 '/bookinfo/install','/bookinfo/uninstall','/bookinfo/create',
 '/kiali/install','/kiali/delete','/kiali/console', '/kiali/graph',
@@ -30,7 +34,20 @@ const blockKUICommand = async (route: string,commandTree: CommandRegistrar)=>{
   },{noAuthOk: true,inBrowserOk: true})
 }
 
+const rewriteLSCommand = async (commandTree: CommandRegistrar)=>{
+  // using listen->find->listen to block
+  const route='/ls'
+  commandTree.listen(route,() => {
+    return Promise.reject('Command is disabled')
+  },{noAuthOk: true,inBrowserOk: true}) 
+  await commandTree.find(route)
+  commandTree.listen(route,(opts: EvaluatorArgs) => {
+    debug('ls dispatch to shell')
+    return dispatchToShell(opts)
+  },{noAuthOk: true,inBrowserOk: true})
+}
+
 export default async (commandTree: CommandRegistrar) => {
   const allRoutes =  [...bashLikeRoutes,...k8sRoutes,...coreSupportRoutes]
-  return Promise.all([...allRoutes.map((route)=>blockKUICommand(route,commandTree))])
+  return Promise.all([rewriteLSCommand(commandTree),rewriteLSCommand(commandTree),...allRoutes.map((route)=>blockKUICommand(route,commandTree))])
 }
