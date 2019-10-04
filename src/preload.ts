@@ -7,11 +7,11 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { CommandRegistrar } from '@kui-shell/core/models/command'
-import  {qexec}  from '@kui-shell/core/core/repl'
+import { Commands } from '@kui-shell/core'
+import  { REPL }  from '@kui-shell/core'
 
 
-const redirectHelp = async (commandTree: CommandRegistrar)=> {
+const redirectHelp = async (commandTree: Commands.Registrar)=> {
   commandTree.listen('/help',() => {
     return Promise.reject('Command is disabled')
   },{noAuthOk: true,inBrowserOk: true}) 
@@ -19,11 +19,11 @@ const redirectHelp = async (commandTree: CommandRegistrar)=> {
   await commandTree.find('/help')
 
   commandTree.listen('/help', async () => {
-    return qexec('getting started')
+    return REPL.qexec('getting started')
   },{noAuthOk: true,inBrowserOk: true})
 
 }
 
-export default async (commandTree: CommandRegistrar) => {
+export default async (commandTree: Commands.Registrar) => {
   return Promise.all([redirectHelp(commandTree)])
 }

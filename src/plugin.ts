@@ -7,8 +7,8 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { CommandRegistrar,EvaluatorArgs } from '@kui-shell/core/models/command'
-import {dispatchToShell} from '@kui-shell/plugin-bash-like/lib/cmds/catchall'
+import { Commands } from '@kui-shell/core'
+import {dispatchToShell} from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
 
 import * as Debug from 'debug'
 const debug = Debug('plugins/addons')
@@ -22,7 +22,7 @@ const coreSupportRoutes = ['/run','/window','/window/bigger','/window/smaller','
 //const otherRoutes = ['/export','/cd']
 //const kuiRoutes = ['']
 
-const blockKUICommand = async (route: string,commandTree: CommandRegistrar)=>{
+const blockKUICommand = async (route: string,commandTree: Commands.Registrar)=>{
   // using listen->find->listen to block
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
@@ -34,33 +34,33 @@ const blockKUICommand = async (route: string,commandTree: CommandRegistrar)=>{
   },{noAuthOk: true,inBrowserOk: true})
 }
 
-const rewriteLSCommand = async (commandTree: CommandRegistrar)=>{
+const rewriteLSCommand = async (commandTree: Commands.Registrar)=>{
   // using listen->find->listen to block
   const route='/ls'
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
   },{noAuthOk: true,inBrowserOk: true}) 
   await commandTree.find(route)
-  commandTree.listen(route,(opts: EvaluatorArgs) => {
+  commandTree.listen(route,(opts: Commands.Arguments) => {
     debug('ls dispatch to shell')
     return dispatchToShell(opts)
   },{noAuthOk: true,inBrowserOk: true})
 }
 
-const rewriteExecCommand = async (commandTree: CommandRegistrar)=>{
+const rewriteExecCommand = async (commandTree: Commands.Registrar)=>{
   // using listen->find->listen to block
   const route='/!'
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
   },{noAuthOk: true,inBrowserOk: true}) 
   await commandTree.find(route)
-  commandTree.listen(route,(opts: EvaluatorArgs) => {
+  commandTree.listen(route,(opts: Commands.Arguments) => {
     debug('! dispatch to shell')
     return dispatchToShell(opts)
   },{noAuthOk: true,inBrowserOk: true})
 }
 
-export default async (commandTree: CommandRegistrar) => {
+export default async (commandTree: Commands.Registrar) => {
   const allRoutes =  [...bashLikeRoutes,...k8sRoutes,...coreSupportRoutes]
   return Promise.all([rewriteExecCommand(commandTree),rewriteLSCommand(commandTree),rewriteLSCommand(commandTree),...allRoutes.map((route)=>blockKUICommand(route,commandTree))])
 }
