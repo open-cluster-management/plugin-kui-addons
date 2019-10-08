@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { Commands } from '@kui-shell/core'
+import { Commands,REPL } from '@kui-shell/core'
 import {dispatchToShell} from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
 
 import * as Debug from 'debug'
@@ -59,8 +59,20 @@ const rewriteExecCommand = async (commandTree: Commands.Registrar)=>{
     return dispatchToShell(opts)
   },{noAuthOk: true,inBrowserOk: true})
 }
+const redirectHelp = async (commandTree: Commands.Registrar)=> {
+  commandTree.listen('/help',() => {
+    return Promise.reject('Command is disabled')
+  },{noAuthOk: true,inBrowserOk: true}) 
+
+  await commandTree.find('/help')
+
+  commandTree.listen('/help', async () => {
+    return REPL.qexec('getting started')
+  },{noAuthOk: true,inBrowserOk: true})
+
+}
 
 export default async (commandTree: Commands.Registrar) => {
   const allRoutes =  [...bashLikeRoutes,...k8sRoutes,...coreSupportRoutes]
-  return Promise.all([rewriteExecCommand(commandTree),rewriteLSCommand(commandTree),rewriteLSCommand(commandTree),...allRoutes.map((route)=>blockKUICommand(route,commandTree))])
+  return Promise.all([redirectHelp(commandTree),rewriteExecCommand(commandTree),rewriteLSCommand(commandTree),rewriteLSCommand(commandTree),...allRoutes.map((route)=>blockKUICommand(route,commandTree))])
 }
