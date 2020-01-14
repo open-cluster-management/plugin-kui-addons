@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { Commands,REPL } from '@kui-shell/core'
+import { Registrar, Arguments, internalBeCarefulExec } from '@kui-shell/core'
 import {dispatchToShell} from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
 
 import * as Debug from 'debug'
@@ -22,7 +22,7 @@ const coreSupportRoutes = ['/run','/window','/window/bigger','/window/smaller','
 //const otherRoutes = ['/export','/cd']
 //const kuiRoutes = ['']
 
-const blockKUICommand = async (route: string,commandTree: Commands.Registrar)=>{
+const blockKUICommand = async (route: string,commandTree: Registrar)=>{
   // using listen->find->listen to block
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
@@ -34,32 +34,33 @@ const blockKUICommand = async (route: string,commandTree: Commands.Registrar)=>{
   },{noAuthOk: true,inBrowserOk: true})
 }
 
-const rewriteLSCommand = async (commandTree: Commands.Registrar)=>{
+const rewriteLSCommand = async (commandTree: Registrar)=>{
   // using listen->find->listen to block
   const route='/ls'
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
   },{noAuthOk: true,inBrowserOk: true}) 
   await commandTree.find(route)
-  commandTree.listen(route,(opts: Commands.Arguments) => {
+  commandTree.listen(route,(opts: Arguments) => {
     debug('ls dispatch to shell')
     return dispatchToShell(opts)
   },{noAuthOk: true,inBrowserOk: true})
 }
 
-const rewriteExecCommand = async (commandTree: Commands.Registrar)=>{
+const rewriteExecCommand = async (commandTree: Registrar)=>{
   // using listen->find->listen to block
   const route='/!'
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
   },{noAuthOk: true,inBrowserOk: true}) 
   await commandTree.find(route)
-  commandTree.listen(route,(opts: Commands.Arguments) => {
+  commandTree.listen(route,(opts: Arguments) => {
     debug('! dispatch to shell')
     return dispatchToShell(opts)
   },{noAuthOk: true,inBrowserOk: true})
 }
-const redirectHelp = async (commandTree: Commands.Registrar)=> {
+
+const redirectHelp = async (commandTree: Registrar)=> {
   commandTree.listen('/help',() => {
     return Promise.reject('Command is disabled')
   },{noAuthOk: true,inBrowserOk: true}) 
@@ -67,12 +68,12 @@ const redirectHelp = async (commandTree: Commands.Registrar)=> {
   await commandTree.find('/help')
 
   commandTree.listen('/help', async () => {
-    return REPL.qexec('getting started')
+    return internalBeCarefulExec('getting started')
   },{noAuthOk: true,inBrowserOk: true})
 
 }
 
-export default async (commandTree: Commands.Registrar) => {
+export default async (commandTree: Registrar) => {
   const allRoutes =  [...bashLikeRoutes,...k8sRoutes,...coreSupportRoutes]
   return Promise.all([redirectHelp(commandTree),rewriteExecCommand(commandTree),rewriteLSCommand(commandTree),rewriteLSCommand(commandTree),...allRoutes.map((route)=>blockKUICommand(route,commandTree))])
 }

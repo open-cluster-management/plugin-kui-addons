@@ -2,8 +2,10 @@
 .travis.yml
 package-lock.json
 tsconfig.json
+tsconfig-es6.json
 src
 CHANGELOG.md
 node_modules
 .DS_Store
 README.md
+tsconfig.tsbuildinfo
