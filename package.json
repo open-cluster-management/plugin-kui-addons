@@ -10,9 +10,9 @@
     "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {
-    "@kui-shell/builder": "^5.7.22",
-    "@kui-shell/core": "^5.7.22",
-    "@kui-shell/plugin-bash-like": "^5.7.22",
+    "@kui-shell/builder": "^6.0.1",
+    "@kui-shell/core": "^6.0.1",
+    "@kui-shell/plugin-bash-like": "^6.0.1",
     "@types/lodash": "^4.14.135",
     "@types/node": "^12.6.8",
     "commitizen": "^3.1.1",

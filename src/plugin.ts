@@ -7,7 +7,7 @@
  * Contract with IBM Corp.
  *******************************************************************************/
 
-import { Registrar, Arguments, internalBeCarefulExec } from '@kui-shell/core'
+import { Registrar, Arguments } from '@kui-shell/core'
 import {dispatchToShell} from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
 
 import * as Debug from 'debug'
@@ -67,10 +67,9 @@ const redirectHelp = async (commandTree: Registrar)=> {
 
   await commandTree.find('/help')
 
-  commandTree.listen('/help', async () => {
-    return internalBeCarefulExec('getting started')
-  },{noAuthOk: true,inBrowserOk: true})
-
+  commandTree.listen('/help', ({ REPL }: Arguments) => {
+    return REPL.qexec('getting started')
+  }, {noAuthOk: true,inBrowserOk: true})
 }
 
 export default async (commandTree: Registrar) => {
