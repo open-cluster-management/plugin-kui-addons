@@ -8,6 +8,11 @@ branches:
     - /^[0-9]+\..*$/
     - /^v[0-9]+\..*$/
     - /^release-[0-9]+\..*$/
+addons:
+  sonarcloud:
+    organization: "open-cluster-management"
+    token:
+      secure: "s5TYQmm0s8cTxaS9NayEca5KnPdGdEqL1QMdATrQBRX8fHVaq26vrudXx/7lqboWNyxOFysTmFWWxihHD/agDnkqIjl0hrtH4Pqv2z168b2S50ZCizJ8cJLQ6lOM/eAA+HTeGHLhBMRLeIZWfB5YWQZjK2FG6cyunzCJ44yeCcguDi9P0hPzhB0iozMQAzbDfEH93AYFP+QlZOXcPUVd0KeOXyW1GzhS0NK2WXkhVAR87FIYpb0W89V5kOlT/al0WEfVPyxnBAOBXp2kD+LAMGMWNDDBHdC4g6tv9mBaM5OF63dcvSBL2tMvx3IKKVicqGm2qNs73O0B+OJdHCjVQm6CVrbRPxmTiE4L9fgaJ5YNR8O0P2RaOCsuo+KT8fNTLmeIBuCaj0gWknzw8AAvci42m8tdZhbSXEtCqR//IYf/8dVOC3QPOZDVpJtFDQV+JCOPVltjdTsD54nE+ZUyZ5UmKTpQsuaIGD14QOJFkJMtClgdqE6SvFhViIJnJew0QwlhtJk7kiRZYjHPOW72hTjG0jZNZERj3eMibE6/9hBgFiZm1Kz8QJ3lkbP9+Gqs+aYT8O8sH3iZ5aZBFuHWoz6V03WETK8MO70S9zL8e3wHPcoQT2eNLx0QOepo+7iVOARy0UdAbKdofQnRjmJl1wGc1wOpqhfeb5AfprHZ60Q="
 
 install:
   - |
@@ -23,6 +28,7 @@ before_script:
 
 script:
   - npm test
+  - sonar-scanner --debug
   - |
       if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
         tsc
