@@ -12,7 +12,8 @@ This plugin uses several technologies to automate and make npm package publishin
 Refer to the upstream [KUI](https://github.com/IBM/kui) repo for instructions on how to develop plugins
 
 ## How to publish a new npm package release for this plugin
-1. Add all files you modified with `git add`
-2. Use `npm run commit` to start a commit process (IMPORTANT - do not use git commit)
-3. Create a PR
-4. Merge the PR, and the Travis job will publish a release
+1. Run `npm ci` if you have not generated your node_modules folder yet.
+2. Add all files you modified with `git add`
+3. Use `npm run commit` to start a commit process (IMPORTANT - do not use git commit)
+4. Create a PR
+5. Merge the PR, and the Travis job will publish a release
