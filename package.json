@@ -35,7 +35,7 @@
   "keywords": [],
   "author": "",
   "release": {
-    "branch": "master",
+    "branch": "main",
     "plugins": [
       [
         "@semantic-release/github",
