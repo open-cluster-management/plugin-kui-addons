@@ -12,7 +12,9 @@
  */
 
 import { Registrar, Arguments } from '@kui-shell/core'
-import {dispatchToShell} from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
+// command name changed since KUI v6
+// import {dispatchToShell} from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
+import { doExecWithPty } from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
 
 import * as Debug from 'debug'
 const debug = Debug('plugins/addons')
@@ -30,12 +32,12 @@ const blockKUICommand = async (route: string,commandTree: Registrar)=>{
   // using listen->find->listen to block
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
-  },{noAuthOk: true,inBrowserOk: true}) 
+  },{})  // no command options needed in KUI v10 as noAuthOK true is the default
   await commandTree.find(route)
 
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
-  },{noAuthOk: true,inBrowserOk: true})
+  },{}) // no command options needed in KUI v10 as noAuthOK true is the default
 }
 
 const rewriteLSCommand = async (commandTree: Registrar)=>{
@@ -43,12 +45,12 @@ const rewriteLSCommand = async (commandTree: Registrar)=>{
   const route='/ls'
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
-  },{noAuthOk: true,inBrowserOk: true}) 
+  },{}) // no command options needed in KUI v10 as noAuthOK true is the default
   await commandTree.find(route)
   commandTree.listen(route,(opts: Arguments) => {
     debug('ls dispatch to shell')
-    return dispatchToShell(opts)
-  },{noAuthOk: true,inBrowserOk: true})
+    return doExecWithPty(opts)
+  },{})  // no command options needed in KUI v10 as noAuthOK true is the default
 }
 
 const rewriteExecCommand = async (commandTree: Registrar)=>{
@@ -56,24 +58,24 @@ const rewriteExecCommand = async (commandTree: Registrar)=>{
   const route='/!'
   commandTree.listen(route,() => {
     return Promise.reject('Command is disabled')
-  },{noAuthOk: true,inBrowserOk: true}) 
+  },{})  // no command options needed in KUI v10 as noAuthOK true is the default
   await commandTree.find(route)
   commandTree.listen(route,(opts: Arguments) => {
     debug('! dispatch to shell')
-    return dispatchToShell(opts)
-  },{noAuthOk: true,inBrowserOk: true})
+    return doExecWithPty(opts)
+  },{})  // no command options needed in KUI v10 as noAuthOK true is the default
 }
 
 const redirectHelp = async (commandTree: Registrar)=> {
   commandTree.listen('/help',() => {
     return Promise.reject('Command is disabled')
-  },{noAuthOk: true,inBrowserOk: true}) 
+  },{})   // no command options needed in KUI v10 as noAuthOK true is the default
 
   await commandTree.find('/help')
 
   commandTree.listen('/help', ({ REPL }: Arguments) => {
     return REPL.qexec('getting started')
-  }, {noAuthOk: true,inBrowserOk: true})
+  },{})  // no command options needed in KUI v10 as noAuthOK true is the default
 }
 
 export default async (commandTree: Registrar) => {
