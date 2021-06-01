@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "10"
+  - "14"
 
 branches:
   only:
@@ -32,7 +32,6 @@ script:
   - |
       if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
         tsc
-        cp -r ./dist ./mdist
         rm README.md
         ls -a
         npm pack

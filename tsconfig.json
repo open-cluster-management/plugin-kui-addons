@@ -2,10 +2,13 @@
   "extends": "./node_modules/@kui-shell/builder/tsconfig-base.json",
   "include": ["./src"],
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
     "composite": true,
-    "outDir": "dist",
+    "outDir": "mdist",
     "rootDir": "src",
+    "module": "esnext",
+    "target": "ES2016",
     "resolveJsonModule": true
   }
 }
