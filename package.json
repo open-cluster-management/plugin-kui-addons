@@ -2,7 +2,9 @@
   "name": "@kui-shell/plugin-kui-addons",
   "version": "0.0.0-semantically-released",
   "description": "",
-  "main": "index.js",
+  "main": "dist/plugin.js",
+  "module": "mdist/plugin.js",
+  "types": "mdist/plugin.d.ts",
   "private": true,
   "scripts": {
     "semantic-release": "semantic-release",

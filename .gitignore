@@ -2,6 +2,7 @@ node_modules
 **/*.js
 **/*.js.map
 **/*.d.ts
+.DS_Store
 tsconfig.tsbuildinfo
 dist
 mdist

@@ -7,5 +7,6 @@ src
 CHANGELOG.md
 node_modules
 .DS_Store
+Makefile
 README.md
 tsconfig.tsbuildinfo
