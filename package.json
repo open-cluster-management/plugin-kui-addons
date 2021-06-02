@@ -12,9 +12,9 @@
     "test": "echo \"Error: no test specified\""
   },
   "devDependencies": {
-    "@kui-shell/builder": "~10.3.4",
-    "@kui-shell/core": "~10.3.4",
-    "@kui-shell/plugin-bash-like": "~10.3.4",
+    "@kui-shell/builder": "10.3.4",
+    "@kui-shell/core": "10.3.4",
+    "@kui-shell/plugin-bash-like": "10.3.4",
     "@types/lodash": "^4.14.135",
     "@types/node": "12.12.31",
     "commitizen": "^4.2.4",
