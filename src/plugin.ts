@@ -16,7 +16,7 @@ import { Registrar, Arguments } from '@kui-shell/core'
 // import {dispatchToShell} from '@kui-shell/plugin-bash-like/dist/lib/cmds/catchall'
 import { doExecWithPty } from '@kui-shell/plugin-bash-like'
 
-import * as Debug from 'debug'
+import Debug from 'debug'
 const debug = Debug('plugins/addons')
 
 const bashLikeRoutes = ['/git/status','/git/diff','/lls'];
