@@ -29,24 +29,13 @@ const coreSupportRoutes = ['/run','/window','/window/bigger','/window/smaller','
 //const kuiRoutes = ['']
 
 const blockKUICommand = async (route: string,commandTree: Registrar)=>{
-  // using listen->find->listen to block
-  commandTree.listen(route,() => {
-    return Promise.reject('Command is disabled')
-  },{})  // no command options needed in KUI v10 as noAuthOK true is the default
-  await commandTree.find(route)
-
-  commandTree.listen(route,() => {
-    return Promise.reject('Command is disabled')
-  },{}) // no command options needed in KUI v10 as noAuthOK true is the default
+  // using listen to block commands we specify
+  commandTree.listen(route, () => 'Command is disabled')  // no command options needed in KUI v10 as noAuthOK true is the default
 }
 
 const rewriteLSCommand = async (commandTree: Registrar)=>{
   // using override to block
   const route='/ls'
-  commandTree.override(route,'plugin-bash-like/fs',() => {
-    return Promise.reject('Command is disabled')
-  },{}) // no command options needed in KUI v10 as noAuthOK true is the default
-  await commandTree.find(route)
   commandTree.override(route,'plugin-bash-like/fs',(opts: Arguments) => {
     debug('ls dispatch to shell')
     return doExecWithPty(opts)
@@ -56,10 +45,6 @@ const rewriteLSCommand = async (commandTree: Registrar)=>{
 const rewriteExecCommand = async (commandTree: Registrar)=>{
   // using override to block
   const route='/!'
-  commandTree.override(route,'plugin-bash-like',() => {
-    return Promise.reject('Command is disabled')
-  },{})  // no command options needed in KUI v10 as noAuthOK true is the default
-  await commandTree.find(route)
   commandTree.override(route,'plugin-bash-like',(opts: Arguments) => {
     debug('! dispatch to shell')
     return doExecWithPty(opts)
@@ -67,10 +52,6 @@ const rewriteExecCommand = async (commandTree: Registrar)=>{
 }
 
 const redirectHelp = async (commandTree: Registrar)=> {
-  commandTree.listen('/help',() => {
-    return Promise.reject('Command is disabled')
-  },{})   // no command options needed in KUI v10 as noAuthOK true is the default
-  await commandTree.find('/help')
   commandTree.listen('/help', ({ REPL }: Arguments) => {
     return REPL.qexec('getting started')
   },{})  // no command options needed in KUI v10 as noAuthOK true is the default
