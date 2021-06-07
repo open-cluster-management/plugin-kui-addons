@@ -1,0 +1,13 @@
+{
+    "presets": [[
+        "@babel/preset-env", {
+          "targets": {
+            "node": true
+          }
+        }]
+    ],
+    "plugins":[
+      "@babel/plugin-transform-modules-commonjs",
+      "babel-plugin-dynamic-import-node-babel-7"
+    ]
+  }
