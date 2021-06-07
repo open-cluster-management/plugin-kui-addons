@@ -16,7 +16,6 @@ addons:
 
 install:
   - |
-    npm install -g typescript
     npm install
 
 before_script:
@@ -31,11 +30,10 @@ script:
   - sonar-scanner --debug
   - |
       if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]; then
-        tsc
+        make compile-plugin
         rm README.md
         ls -a
-        npm pack
-        mv kui-shell-plugin-kui-addons-0.0.0-semantically-released.tgz plugin-kui-addons.tgz
+        make package
       fi
 
 deploy:

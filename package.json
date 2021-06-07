@@ -7,20 +7,28 @@
   "types": "mdist/plugin.d.ts",
   "private": true,
   "scripts": {
+    "compile": "tsc",
+    "compile:clean": "tsc --build tsconfig.json --clean",
     "semantic-release": "semantic-release",
     "commit": "git-cz",
-    "test": "echo \"Error: no test specified\""
+    "test": "echo \"Information: no test specified\""
   },
   "devDependencies": {
+    "@babel/cli": "7.14.3",
+    "@babel/core": "7.14.3",
+    "@babel/plugin-transform-modules-commonjs": "7.14.0",
+    "@babel/preset-env": "7.14.4",
     "@kui-shell/builder": "~10.3.4",
     "@kui-shell/core": "~10.3.4",
     "@kui-shell/plugin-bash-like": "~10.3.4",
     "@types/lodash": "^4.14.135",
     "@types/node": "12.12.31",
+    "babel-plugin-dynamic-import-node-babel-7": "2.0.7",
     "commitizen": "^4.2.4",
     "ghooks": "^2.0.4",
     "sass": "~1.32.11",
-    "semantic-release": "^17.4.2"
+    "semantic-release": "^17.4.2",
+    "typescript": "4.3.2"
   },
   "config": {
     "commitizen": {

@@ -6,3 +6,4 @@ node_modules
 tsconfig.tsbuildinfo
 dist
 mdist
+kui-shell-plugin-kui-addons-0.0.0-semantically-released.tgz
