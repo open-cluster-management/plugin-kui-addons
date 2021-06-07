@@ -41,26 +41,26 @@ const blockKUICommand = async (route: string,commandTree: Registrar)=>{
 }
 
 const rewriteLSCommand = async (commandTree: Registrar)=>{
-  // using listen->find->listen to block
+  // using override to block
   const route='/ls'
-  commandTree.listen(route,() => {
+  commandTree.override(route,'plugin-bash-like/fs',() => {
     return Promise.reject('Command is disabled')
   },{}) // no command options needed in KUI v10 as noAuthOK true is the default
   await commandTree.find(route)
-  commandTree.listen(route,(opts: Arguments) => {
+  commandTree.override(route,'plugin-bash-like/fs',(opts: Arguments) => {
     debug('ls dispatch to shell')
     return doExecWithPty(opts)
   },{})  // no command options needed in KUI v10 as noAuthOK true is the default
 }
 
 const rewriteExecCommand = async (commandTree: Registrar)=>{
-  // using listen->find->listen to block
+  // using override to block
   const route='/!'
-  commandTree.listen(route,() => {
+  commandTree.override(route,'plugin-bash-like',() => {
     return Promise.reject('Command is disabled')
   },{})  // no command options needed in KUI v10 as noAuthOK true is the default
   await commandTree.find(route)
-  commandTree.listen(route,(opts: Arguments) => {
+  commandTree.override(route,'plugin-bash-like',(opts: Arguments) => {
     debug('! dispatch to shell')
     return doExecWithPty(opts)
   },{})  // no command options needed in KUI v10 as noAuthOK true is the default
@@ -70,9 +70,7 @@ const redirectHelp = async (commandTree: Registrar)=> {
   commandTree.listen('/help',() => {
     return Promise.reject('Command is disabled')
   },{})   // no command options needed in KUI v10 as noAuthOK true is the default
-
   await commandTree.find('/help')
-
   commandTree.listen('/help', ({ REPL }: Arguments) => {
     return REPL.qexec('getting started')
   },{})  // no command options needed in KUI v10 as noAuthOK true is the default
