@@ -2,7 +2,7 @@
   "apiVersion": "kui-shell/v1",
   "kind": "Notebook",
   "metadata": {
-    "name": "Getting Started",
+    "name": "Getting started",
     "description": "Getting started with Visual Web Terminal"
   },
   "spec": {
