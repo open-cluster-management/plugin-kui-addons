@@ -42,7 +42,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:open-cluster-management/plugin-kui-addons.git"
+    "url": "git@github.com:stolostron/plugin-kui-addons.git"
   },
   "keywords": [],
   "author": "",

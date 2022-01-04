@@ -1,9 +1,9 @@
 # KUI Addons
 
-This [KUI](https://github.com/kubernetes-sigs/kui) plugin is responsible for helping block users from executing unsupported KUI commands in the [kui-web-terminal](https://github.com/open-cluster-management/kui-web-terminal) deployment.  It also hosts KUI notebooks (like Jupyter notebooks) used to provide online help, examples, etc. to the user of kui-web-terminal.
+This [KUI](https://github.com/kubernetes-sigs/kui) plugin is responsible for helping block users from executing unsupported KUI commands in the [kui-web-terminal](https://github.com/stolostron/kui-web-terminal) deployment.  It also hosts KUI notebooks (like Jupyter notebooks) used to provide online help, examples, etc. to the user of kui-web-terminal.
 
 ## Package publishing information
-This plugin uses several technologies to automate and make npm package publishing easier.  Currently we do not publish to the public npm; this repostitory builds a `.tgz` with the compiled plugin that is integrated in the [kui-web-terminal](https://github.com/open-cluster-management/kui-web-terminal) repository.
+This plugin uses several technologies to automate and make npm package publishing easier.  Currently we do not publish to the public npm; this repostitory builds a `.tgz` with the compiled plugin that is integrated in the [kui-web-terminal](https://github.com/stolostron/kui-web-terminal) repository.
 
 - commitizen (standardizes commit messages, semantic-release relies on the commit message to determine how to version the next release)
 - semantic-release (automates npm publishing and git releases)
