@@ -11,6 +11,7 @@ This plugin uses several technologies to automate and make npm package publishin
 ## Development with Open Source KUI
 Refer to the upstream [KUI](https://github.com/kubernetes-sigs/kui) repo for instructions on how to develop plugins
 
+
 ## How to publish a new npm package release for this plugin
 1. Make any code changes needed or any updates to dependencies in `package.json`
 2. If you want to start over and update all dependencies, run `make clean`
