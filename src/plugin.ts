@@ -25,6 +25,7 @@ const k8sRoutes = ['/istio/install','/istio/uninstall','/istio/ingress','/istio/
 '/kiali/install','/kiali/delete','/kiali/console', '/kiali/graph',
 '/k8s/kedit','/k8s/kdebug'];
 const coreSupportRoutes = ['/run','/window','/window/bigger','/window/smaller','/window/max','/window/unmax','/window/close','/quit'];
+
 //const otherRoutes = ['/export','/cd']
 //const kuiRoutes = ['']
 
